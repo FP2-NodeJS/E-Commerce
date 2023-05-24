@@ -45,14 +45,8 @@ module.exports = (sequelize, DataTypes) => {
           msg:"price can't be empty"
         },
         isNumeric: true,
-        min: {
-          args: 0,
-          msg: "minimum value is 0"
-        },
-        max: {
-          args: 50000000,
-          msg: "maximum value is 50.000.000"
-        }
+        min: 0,
+        max: 50000000
       }
     },
     stock: {

@@ -6,10 +6,9 @@ const { query } = require('express');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Users",[{
-      id: 1,
       full_name: "admin",
       email: "admin@admin.com",
-      password:"admin",
+      password:"$2b$10$letDGlVSaua0hkjHhkqNeueIvz1QLfDdApHC1pTpHGH//b/vY./m2", // password :admin1
       gender:"female",
       role:"admin",
       balance: 10000000,

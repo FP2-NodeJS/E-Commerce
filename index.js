@@ -4,7 +4,7 @@ const app = express()
 const port = process.env.PORT
 const router = require("./routers/routes")
 
-
+app.use(express.json())
 app.use(router)
 
 app.listen(port,()=>{

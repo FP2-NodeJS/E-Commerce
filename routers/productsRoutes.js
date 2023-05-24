@@ -1,24 +1,16 @@
 const express = require('express')
 const app = express()
+const ctr = require('../controllers/productController')
+const Authorization = require('../middleware/authorization')
 
-app.get('/',(req,res)=>{
-    res.status(200).json({message: "show products"})
-})
+app.get('/', ctr.ShowProduct)
 
-app.post('/',(req,res)=>{
-    res.status(200).json({message: "add products"})
-})
+app.post('/',ctr.AddProduct)
 
-app.put('/:productId',(req,res)=>{
-    res.status(200).json({message: "edit products"})
-})
+app.put('/:productId',Authorization.ProductsAuthor,ctr.EditProduct)
 
-app.patch('/:productId',(req,res)=>{
-    res.status(200).json({message: "patch products"})
-})
+app.patch('/:productId',Authorization.ProductsAuthor,ctr.EditCategoryOfProduct)
 
-app.delete('/:productId',(req,res)=>{
-    res.status(200).json({message: "delete products"})
-})
+app.delete('/:productId',Authorization.ProductsAuthor, ctr.DeleteProduct)
 
 module.exports = app

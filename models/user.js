@@ -109,14 +109,8 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg:"balance can't be empty"
         },
-        min: {
-          args: 0,
-          msg: "minimum value is 0"
-        },
-        max: {
-          args: 100000000,
-          msg: "maximum value is 100.000.000"
-        },
+        min:0,
+        max: 100000000,
         isNumeric: true
       }
     }

@@ -1,20 +1,14 @@
 const express = require('express')
 const app = express()
+const ctr = require('../controllers/categoryController')
+const Authorization = require('../middleware/authorization')
 
-app.get('/',(req,res)=>{
-    res.status(200).json({message: "show category"})
-})
+app.get('/', ctr.showCategory)
 
-app.post('/',(req,res)=>{
-    res.status(200).json({message: "add category"})
-})
+app.post('/', ctr.addCategory)
 
-app.patch('/:categoryId',(req,res)=>{
-    res.status(200).json({message: "patch category"})
-})
+app.patch('/:categoryId',Authorization.CategoriesAuthor, ctr.updateCategory)
 
-app.delete('/:categoryId',(req,res)=>{
-    res.status(200).json({message: "delete category"})
-})
+app.delete('/:categoryId',Authorization.CategoriesAuthor, ctr.deleteCategory)
 
 module.exports = app
