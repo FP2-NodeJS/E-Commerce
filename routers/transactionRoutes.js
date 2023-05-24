@@ -1,21 +1,15 @@
 const express = require('express')
 const app = express()
+const transactionController = require('../controllers/transactionsController');
 
-app.get('/user',(req,res)=>{
-    res.status(200).json({message: "show current user transaction history"})
-})
 
-app.post('/',(req,res)=>{
-    res.status(200).json({message: "add transaction history"})
-})
+app.post('/', transactionController.order)
 
-app.get('/admin',(req,res)=>{
-    res.status(200).json({message: "show all user transaction history"})
-})
+app.get('/user', transactionController.getUserTransaction)
 
-app.get('/:productId',(req,res)=>{
-    res.status(200).json({message: "show transaction history by id"})
-})
+app.get('/admin', transactionController.getAdmin)
+
+app.get('/:transactionId', transactionController.getTransactionById)
 
 
 module.exports = app
