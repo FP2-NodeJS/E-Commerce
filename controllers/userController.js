@@ -142,8 +142,13 @@ class UserController{
                 where:{id},
                 returning:true
             })
+
+            //change currency
+            let currency = Intl.NumberFormat('en-ID')
+            const update = currency.format(updated[1][0].balance)
+            
             res.status(200).json({
-                message : `your balance has been successfully updated to Rp ${updated[1][0].balance}`
+                message : `your balance has been successfully updated to Rp ${update}`
             })
         } catch (error) {
             res.status(500).json({
