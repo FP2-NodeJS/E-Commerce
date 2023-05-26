@@ -69,6 +69,16 @@ class TransactionController {
                 }
             })
 
+            //add sold product amount
+            const checkCategorySold = await Category.findByPk(checkProduct.CategoryId)
+            const sold_product = checkCategorySold.sold_product_amount + quantity
+            const updateSoldProduct =await Category.update({
+                sold_product_amount : sold_product
+            },{
+                where:{
+                    id: checkCategorySold.id
+                }
+            })
 
             const pushTransaction = await TransactionHistory.create({
                 ProductId: productId,
@@ -77,10 +87,17 @@ class TransactionController {
                 total_price: total
             })
 
+            let currency = Intl.NumberFormat('en-ID',{
+                style:"currency",
+                currency: "IDR"
+            })
+            const prices = currency.format(total)
+            
+
             const response = {
                 message: "You have successfully purchase the product!",
                 transactionBill: {
-                    "total_price": "Rp. " + total,
+                    "total_price": "Rp. " + prices,
                     "quantity": quantity,
                     "product_name": checkProduct.title
                 }
@@ -116,6 +133,17 @@ class TransactionController {
                 }
 
             })
+
+            //change currency
+            for(let i =  0 ; i < response.length;i++){
+                let currency = Intl.NumberFormat('en-ID',{
+                    style:"currency",
+                    currency: "IDR"
+                })
+                response[i].total_price = currency.format(response[i].total_price)
+                response[i].Product.price = currency.format(response[i].Product.price)
+            }
+
             res.status(200).json({ transactionHistories: response })
         } catch (error) {
             res.status(error?.code || 500).json(error)
@@ -165,6 +193,17 @@ class TransactionController {
                     exclude: ['id']
                 }
             })
+
+            //checck currency
+            for(let i =  0 ; i < response.length;i++){
+                let currency = Intl.NumberFormat('en-ID',{
+                    style:"currency",
+                    currency: "IDR"
+                })
+                response[i].total_price = currency.format(response[i].total_price)
+                response[i].Product.price = currency.format(response[i].Product.price)
+                response[i].User.balance = currency.format(response[i].User.balance)
+            }
 
             res.status(200).json({ transactionHistories: response })
         } catch (error) {
@@ -224,6 +263,14 @@ class TransactionController {
                     }
                 ]
             })
+
+            //change currency
+            let currency = Intl.NumberFormat('en-ID',{
+                style:"currency",
+                currency: "IDR"
+            })
+            response.total_price = currency.format(response.total_price)
+            response.Product.price = currency.format(response.Product.price)
 
             res.status(200).json(response)
         } catch (error) {

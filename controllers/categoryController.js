@@ -31,6 +31,23 @@ class CategoriesController{
                     model: Product
                 }]
             })
+
+            //checck currency
+            for(let i =  0 ; i < data.length;i++){
+                if(data[i].Products.length>0){
+                    for(let j=0;j<data[i].Products.length;j++){
+                        if(data[i].Products[j]!=null ||data[i].Products[j]!=undefined){
+                            let currency = Intl.NumberFormat('en-ID',{
+                                style:"currency",
+                                currency: "IDR"
+                            })
+                            
+                            data[i].Products[j].price = currency.format(data[i].Products[j].price)
+                        }
+                    }
+                }
+            }
+            
             res.status(200).json({categories: data})
         } catch (error) {
             res.status(500).json({

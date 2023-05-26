@@ -43,6 +43,15 @@ class ProductController{
     static async ShowProduct(req,res){
         try {
             const data = await Product.findAll()
+
+            //change currency
+            for(let i=0;i<data.length;i++){
+                let currency = Intl.NumberFormat('en-ID',{
+                    style:"currency",
+                    currency: "IDR"
+                })
+                data[i].price = currency.format(data[i].price)    
+            }
             res.status(200).json({products:data})
         } catch (error) {
             res.status(500).json({
